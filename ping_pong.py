@@ -47,10 +47,15 @@ win_height = 500
 window = display.set_mode((win_width, win_height))
 display.set_caption("Ping-Pong Game")
 
+font.init()
+font1 = font.Font(None, 35)
+lose1 = font1.render('PLAYER 1 LOSES!', True, (180, 0, 0))
+lose2 = font1.render('PLAYER 2 LOSES!', True, (180, 0, 0))
+
 
 #Create player
 racket1 = Player('racket.png', 0, 100, 5, 50, 150)
-racket2 = Player('racket.png', 480, 100, 5, 50, 150)
+racket2 = Player('racket.png', 540, 100, 5, 50, 150)
 
 #ball
 ball = GameSprite('ball.png', 200, 200, 5, 50, 50)
@@ -87,6 +92,16 @@ while game:
     #collisions with ball
     if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
         speed_x *= -1
+
+    #losing condition
+    if ball.rect.x == 0:
+        finish = True
+        window.blit(lose1, (200, 200))
+
+    if ball.rect.x > 550:
+        finish = True
+        window.blit(lose2, (200, 200))
+
 
     #Update
     racket1.update_l()
